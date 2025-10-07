@@ -1,44 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2857/2857504.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>DemoT7 Document เจ็ดว่าดัด</title>
-</head>
-<body>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2857/2857504.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>DemoT7 Document เจ็ดว่าดัด</title>
+  <style>
     body {
-        opacity: 0;
-        transition: opacity 1.2s ease-in-out;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
     }
-
     body.loaded {
-        opacity: 1;
+      opacity: 1;
     }
-
+    .nav-link.active {
+      font-weight: bold;
+      border-bottom: 2px solid #0d6efd;
+    }
+    #typing-text {
+      text-align: center;
+    }
+    #typing-text::after {
+      content: '|';
+      animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
     .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
-</style>
-
-<script>
-    window.addEventListener("load", () => {
-        document.body.classList.add("loaded");
-    });
-</script>
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <a href="T7.html" class="btn btn-outline-dark rounded-pill fw-bold shadow-sm">Project T7 Demo</a>
+    .modal-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 80vh;
+      overflow: auto;
+    }
+    .modal-body img {
+      max-width: 100%;
+      max-height: 80vh;
+      height: auto;
+      width: auto;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">T7 เจ็ดว่าดัด</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto text-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="T7.html">Project T7</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#imageModal" href="#">Report Visualization</a></li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
+  <div class="position-absolute top-50 start-50 translate-middle text-center">
+    <h2 id="typing-text"></h2>
+  </div>
 
+  <div class="modal fade" id="imageModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imageModalLabel">Report Visualization Images</h5>
+          <button type="button" class="btn-close btn btn-danger border-danger rounded-circle" data-bs-dismiss="modal" aria-label="ปิด"></button>
+        </div>
+        <div class="modal-body">
+          <img src="https://img2.pic.in.th/pic/Untitled-design0d4d85350b2f27bd.jpg" alt="Untitled design">
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    © 2025 T7 เจ็ดว่าดัด
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+    });
+
+    const text = "T7 เจ็ดว่าดัด – เราสร้างสิ่งใหม่ด้วยความคิดและแรงบันดาลใจ ทุกความพยายามของคุณมีค่า";
+    const typingElement = document.getElementById("typing-text");
+    let i = 0;
+    function typeWriter() {
+      if (i < text.length) {
+        typingElement.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
+      }
+    }
+    typeWriter();
+
+    const currentPage = window.location.pathname.split("/").pop();
+    document.querySelectorAll('.navbar-nav a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && href !== '#' && (href === currentPage || (href === 'index.html' && currentPage === ''))) {
+        link.classList.add('active');
+      }
+    });
+  </script>
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
